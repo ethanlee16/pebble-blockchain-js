@@ -5,26 +5,55 @@
 // * Have anything to do with motorcycles
 
 var UI = require('ui');
+var ajax = require('ajax');
 
-var main = new UI.Menu({
-    sections: [{
+var sections = [{
+  title: 'Blockchain',
       items: [{
-        title: 'Show Market Price',
+        title: 'Market Price',
         /* icon: 'images/menu_icon.png',*/
         subtitle: 'Current price of Bitcoin'
       }, {
         title: 'Create Wallet',
-        subtitle: 'Create new Blockchain wallet'
+        subtitle: 'powered by Blockchain'
       }, {
-        title:'Send/Receive Payment',
-        subtitle: 'Send or receive payment from another wallet account'
+        title: 'View Wallets',
+        subtitle: 'Transactions and balance'
       }]
-    }]
-  });
+    }];
+
+var main = new UI.Menu({
+    sections: sections
+});
 
 main.show();
 
-main.on('select', function(e) {
-  
+main.on('select', function(event) {
+  console.log("Received event");
+  var detailCard = new UI.Card({
+      title: sections[0].items[event.itemIndex].title
+    });
+  switch(event.itemIndex) {
+    case 0: 
+      ajax({url: 'http://blockchain.info/ticker', type: 'json'}, 
+      function(json) {
+        detailCard.subtitle("Buy: $" + json.USD.buy + "\nSell: $" + json.USD.sell);
+        detailCard.show();
+      }, function(err) {
+        console.log(err);
+      });
+      break;
+    case 1:
+      ajax({url: 'https://blockchain.info/api/v2/create_wallet', type: 'json'},
+      function(data) {
+        
+      }, function(err) {
+
+      });
+      break;
+    case 2:
+        break;
+  }
+      
 });
 
