@@ -15,11 +15,15 @@ var main = new UI.Menu({
       }, {
         title: 'Create Wallet',
         subtitle: 'Create new Blockchain wallet'
+      }, {
+        title:'Send/Receive Payment',
+        subtitle: 'Send or receive payment from another wallet account'
       }]
     }]
   });
 
 main.show();
+
 main.on('select', function(e) {
   
 });
